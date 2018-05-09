@@ -1,0 +1,25 @@
+.navbar-end {
+	margin-right: auto;
+	margin-left: unset;
+}
+.navbar-start {
+	margin-left: auto;
+	margin-right: unset;
+}
+.navbar-burger {
+	margin-right: auto;
+	margin-left: unset;
+}
+.navbar-brand {
+	margin-left: 0rem !important;
+}
+.navbar-menu {
+	margin-right: 0rem !important;
+}
+.navbar-dropdown a.navbar-item {
+	padding-left: 3rem;
+	padding-right: 1rem;
+}
+.navbar-dropdown {
+	left: unset;
+}
