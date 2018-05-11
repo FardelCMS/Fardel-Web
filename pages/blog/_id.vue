@@ -1,3 +1,3 @@
 <template>
-	<h1>blog : id</h1>
+  <h1>blog : {{$route.params.id}}</h1>
 </template>

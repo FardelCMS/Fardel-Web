@@ -11,11 +11,14 @@
         <span></span>
       </div>
     </div>
-    
+
     <div id="nav-togger" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
       <div class="navbar-start">
-        <a class="navbar-item" href="https://bulma.io/">
+        <a class="navbar-item" href="/">
           Home
+        </a>
+        <a class="navbar-item" href="/auth/login/">
+          Login
         </a>
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link" href="/blog/">
@@ -28,7 +31,7 @@
           </div>
         </div>
         <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="/blog/">
+          <a class="navbar-link" href="/shop/">
             Shop
           </a>
           <div class="navbar-dropdown is-boxed">

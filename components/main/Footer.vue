@@ -18,13 +18,11 @@
         </div>
         <div class="column">
           <div class="columns">
-            <div class="column">
-              <a><img src="/images/itunes.png"></a>
-            </div>
-            <div class="column">
-              <a><img src="/images/google-play.png"></a>   
-            </div>
-          </div>          
+            <ul>
+              <li><a><img style="height:50px" src="/images/itunes.png"></a></li>
+              <li><a><img style="height:50px" src="/images/google-play.png"></a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
