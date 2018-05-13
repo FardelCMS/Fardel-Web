@@ -1,8 +1,7 @@
 module.exports = {
   modules: [
-    '~/modules/auth',
-    '~/modules/blog',
-    '~/modules/shop',
+    '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
   head: {
     titleTemplate: '%s - Fardel',
@@ -15,7 +14,7 @@ module.exports = {
     'bulma',
     '@/assets/css/custom.scss',
   ],
-  plugins: [
-    '~/plugins/axios.js'
-  ],
+  axios: {
+    baseURL: "http://localhost"
+  },
 }

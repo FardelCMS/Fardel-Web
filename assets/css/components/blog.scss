@@ -1,0 +1,40 @@
+.tags .tag:not(:last-child) {
+    margin-left: 8px;
+    margin-left: 0.5rem;
+    margin-right: unset;
+    margin-right: unset;
+}
+
+.post-box {
+	position: relative;
+}
+.readmore-wrapper {
+	position: absolute;
+	bottom: 20px;
+	left: 20px;
+}
+.category-wrapper {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+}
+.tags.has-addons .tag {
+	margin-left: 0;
+	border-radius: 5px;
+}
+.tags.has-addons .tag:not(:last-child) {
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+}
+.tags.has-addons .tag:not(:first-child) {
+	border-bottom-right-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.blog-summarized {
+	margin-bottom: 62px;
+}

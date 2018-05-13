@@ -20,28 +20,29 @@
         <a class="navbar-item" href="/auth/login/">
           Login
         </a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="/blog/">
+        <div class="navbar-item has-dropdown is-hoverable"
+            v-on:mouseover.once="getBlogCategories()">
+          <a class="navbar-link">
             Blog
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="#">
-              Categories
+            <a v-for="category in blogCategories" class="navbar-item" href="#">
+              {{category.name}}
             </a>
           </div>
         </div>
-        <div class="navbar-item has-dropdown is-hoverable">
+        <div class="navbar-item has-dropdown is-hoverable"
+            v-on:mouseover.once="getShopCategories()">
           <a class="navbar-link" href="/shop/">
             Shop
           </a>
           <div class="navbar-dropdown is-boxed">
-            <a class="navbar-item" href="#">
-              Categories
+            <a v-for="category in shopCategories" class="navbar-item" href="#">
+              {{category.name}}
             </a>
           </div>
         </div>
       </div>
-
       <div class="navbar-end">
       </div>
     </div>
@@ -50,9 +51,29 @@
 </template>
 
 <script>
+var blog = require("~/modules/blog")
+
 export default {
   data() {
-    return {showNav: false}
+    return {
+      showNav: false,
+      blogCategories: [],
+      shopCategories: []
+    }
+  },
+  methods: {
+    getBlogCategories: function() {
+      var categories = blog.getCategories(this.$root).then(data => {
+          this.blogCategories = data
+        }
+      )
+    },
+    // getShopCategories: function() {
+    //   var categories = blog.getCategories(this.$root).then(data => {
+    //       this.shopCategories = data
+    //     }
+    //   )
+    // }
   }
 }
 </script>

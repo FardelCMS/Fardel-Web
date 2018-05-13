@@ -2,10 +2,15 @@
 	<div class="container">
 		<div class="columns">
 			<div class="column is-three-quarters">
-					<post-horizontal-list v-bind:posts="posts"></post-horizontal-list>
+        <section class="section">
+            <h3 class="title is-2">Latest Posts</h3>
+  					<post-horizontal-list v-bind:posts="posts"></post-horizontal-list>
+        </section>
 			</div>
 			<div class="column">
-				asd
+				<section class="section">
+          <h4 class="title is-3">Featured Posts</h4>
+        </section>
 			</div>
 		</div>
 	</div>
@@ -13,8 +18,9 @@
 
 <script>
 import axios from 'axios'
-import Blog from "~/modules/blog"
 import PostHorizontalList from "~/components/blog/PostHorizontalList.vue"
+var blog = require("~/modules/blog")
+
 
 export default {
   watchQuery: ['page','per_page'],
@@ -25,13 +31,8 @@ export default {
     title: "Blog"
   },
 
-  data: {
-  	kir: 'asdsad'
-  },
-
-  async asyncData (context) {
-  	var data = Blog().getPosts(context)
-  	console.log(data)
+  async asyncData (app) {
+  	let data = await blog.getPosts(app)
   	return data
   }
 }
