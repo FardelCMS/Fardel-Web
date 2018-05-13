@@ -22,7 +22,7 @@
         </a>
         <div class="navbar-item has-dropdown is-hoverable"
             v-on:mouseover.once="getBlogCategories()">
-          <a class="navbar-link">
+          <a class="navbar-link" href="/blog/">
             Blog
           </a>
           <div class="navbar-dropdown is-boxed">
