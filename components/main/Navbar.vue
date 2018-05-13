@@ -29,6 +29,7 @@
             مجله
           </a>
           <div class="navbar-dropdown is-boxed">
+            <a v-if="!showBlogCategories" class="button is-loading unset-border">Loading</a>
             <a v-for="category in blogCategories" class="navbar-item" href="#">
               {{category.name}}
             </a>
@@ -40,6 +41,7 @@
             فروشگاه
           </a>
           <div class="navbar-dropdown is-boxed">
+            <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
             <a v-for="category in shopCategories" class="navbar-item" href="#">
               {{category.name}}
             </a>
@@ -60,14 +62,17 @@ export default {
   data() {
     return {
       showNav: false,
-      blogCategories: [],
-      shopCategories: []
+      blogCategories: null,
+      shopCategories: [],
+      showBlogCategories: false,
+      showShopCategories: false,
     }
   },
   methods: {
     getBlogCategories: function() {
       var categories = blog.getCategories(this.$root).then(data => {
           this.blogCategories = data
+          this.showBlogCategories = true
         }
       )
     },
