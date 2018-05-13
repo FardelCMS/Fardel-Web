@@ -3,13 +3,13 @@
 		<div class="columns">
 			<div class="column is-three-quarters">
         <section class="section">
-            <h3 class="title is-2">Latest Posts</h3>
+            <h3 class="title is-2">آخرین نوشته ها</h3>
   					<post-horizontal-list v-bind:posts="posts"></post-horizontal-list>
         </section>
 			</div>
 			<div class="column">
 				<section class="section">
-          <h4 class="title is-3">Featured Posts</h4>
+          <h4 class="title is-3">نوشته های برگزیده</h4>
         </section>
 			</div>
 		</div>
