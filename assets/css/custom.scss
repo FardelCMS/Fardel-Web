@@ -1,2 +1,11 @@
 @import 'components/navbar';
 @import 'components/blog';
+
+@font-face {
+	font-family: Byekan;
+	src: url("/fonts/BYekan.ttf") format("truetype"),
+}
+
+* {
+	font-family:Byekan;
+}
