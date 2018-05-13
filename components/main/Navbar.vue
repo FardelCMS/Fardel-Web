@@ -20,6 +20,9 @@
         <a class="navbar-item" href="/auth/login/">
           Login
         </a>
+        <a class="navbar-item" href="/panel/login/">
+          Panel
+        </a>
         <div class="navbar-item has-dropdown is-hoverable"
             v-on:mouseover.once="getBlogCategories()">
           <a class="navbar-link" href="/blog/">
@@ -68,12 +71,12 @@ export default {
         }
       )
     },
-    // getShopCategories: function() {
-    //   var categories = blog.getCategories(this.$root).then(data => {
+    getShopCategories: function() {
+    //   var categories = ecommerce.getCategories(this.$root).then(data => {
     //       this.shopCategories = data
     //     }
     //   )
-    // }
+    }
   }
 }
 </script>
