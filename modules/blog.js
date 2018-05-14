@@ -14,6 +14,27 @@ export async function getPosts(app) {
   }
 }
 
+export async function getPostsByCategories(app, category_name) {
+  let perPage = app.route.query.per_page || 10
+  let page = app.route.query.per_page || 1
+
+  let data = await app.$axios.$get(
+    "/api/blog/categories/"+ encodeURI(category_name) + "/posts/?per_page=" + perPage + "&page=" + page)
+  return {
+    posts: data.category.posts,
+    currentPage: Number(page),
+    currentPerPage: Number(perPage),
+    pages: data.category.pages
+  }
+}
+
+export async function getFeaturedPosts(app){
+  let data = await app.$axios.$get("/api/blog/featured/posts/")
+  return {
+    featuredPosts: data.posts
+  }
+}
+
 /** Get posts */
 export async function getPost(post_id) {
   let response = await axios.get("/api/blog/posts/" + post_id + "/")

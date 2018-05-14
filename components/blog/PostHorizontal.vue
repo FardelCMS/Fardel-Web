@@ -17,7 +17,7 @@
               <p>{{post.summarized}}</p>
             </div>
             <div class="readmore-wrapper">
-              <a href="#"><span class="tag is-medium">Read More</span></a>
+              <a href="#"><span class="tag is-medium">بیشتر بخوانید</span></a>
             </div>
             <div v-if="post.category" class="category-wrapper">
               <div class="control">

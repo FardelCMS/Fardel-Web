@@ -8,8 +8,9 @@
         </section>
 			</div>
 			<div class="column">
-				<section class="section">
+				<section v-if="featuredPosts" class="section">
           <h4 class="title is-3">نوشته های برگزیده</h4>
+          <featured-post-list v-bind:posts="featuredPosts"></featured-post-list>
         </section>
 			</div>
 		</div>
@@ -17,8 +18,8 @@
 </template>
 
 <script>
-import axios from 'axios'
 import PostHorizontalList from "~/components/blog/PostHorizontalList.vue"
+import FeaturedPostList from "~/components/blog/FeaturedPostList.vue"
 var blog = require("~/modules/blog")
 
 
@@ -26,13 +27,16 @@ export default {
   watchQuery: ['page','per_page'],
   components: {
   	PostHorizontalList,
+    FeaturedPostList,
   },
   head: {
-    title: "Blog"
+    title: "مجله"
   },
 
   async asyncData (app) {
-  	let data = await blog.getPosts(app)
+    let data = await blog.getPosts(app)
+  	let featured_posts = await blog.getFeaturedPosts(app)
+    data = Object.assign({}, data, featured_posts);
   	return data
   }
 }

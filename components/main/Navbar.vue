@@ -30,7 +30,7 @@
           </a>
           <div class="navbar-dropdown is-boxed">
             <a v-if="!showBlogCategories" class="button is-loading unset-border">Loading</a>
-            <a v-for="category in blogCategories" class="navbar-item" href="#">
+            <a v-for="category in blogCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
               {{category.name}}
             </a>
           </div>
@@ -42,7 +42,7 @@
           </a>
           <div class="navbar-dropdown is-boxed">
             <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
-            <a v-for="category in shopCategories" class="navbar-item" href="#">
+            <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/category/'+ category.name + '/'" >
               {{category.name}}
             </a>
           </div>

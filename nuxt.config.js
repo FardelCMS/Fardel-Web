@@ -4,7 +4,7 @@ module.exports = {
     '@nuxtjs/proxy',
   ],
   head: {
-    titleTemplate: '%s - Fardel',
+    titleTemplate: '%s - خورجین',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,6 +15,7 @@ module.exports = {
     '@/assets/css/custom.scss',
   ],
   axios: {
-    baseURL: "http://localhost"
+    baseURL: "http://localhost:5000",
+    browserBaseURL: "http://localhost",
   },
 }
