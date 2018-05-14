@@ -28,8 +28,12 @@ export async function getPostsByCategories(app, category_name) {
   }
 }
 
-export async function getFeaturedPosts(app){
-  let data = await app.$axios.$get("/api/blog/featured/posts/")
+export async function getFeaturedPosts(app, category_name){
+  var url = "/api/blog/featured/posts/"
+  if (typeof category_name !== "undefined") {
+    url += category_name + "/"
+  }
+  let data = await app.$axios.$get(encodeURI(url))
   return {
     featuredPosts: data.posts
   }

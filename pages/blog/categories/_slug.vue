@@ -8,8 +8,9 @@
       </section>
 		</div>
 		<div class="column">
-			<section class="section">
+      <section v-if="featuredPosts" class="section">
         <h4 class="title is-3">نوشته های برگزیده</h4>
+        <featured-post-list v-bind:posts="featuredPosts"></featured-post-list>
       </section>
 		</div>
 	</div>
@@ -19,11 +20,13 @@
 
 <script>
 import PostHorizontalList from "~/components/blog/PostHorizontalList.vue"
-import {getPostsByCategories} from "~/modules/blog"
+import FeaturedPostList from "~/components/blog/FeaturedPostList.vue"
+import {getPostsByCategories, getFeaturedPosts} from "~/modules/blog"
 
 export default {
   components: {
   	PostHorizontalList,
+    FeaturedPostList
   },
   head() {
     return {title: "نوشته های دسته بندی " + this.$route.params.slug}
@@ -31,6 +34,8 @@ export default {
 
   async asyncData (app) {
   	let data = await getPostsByCategories(app, app.params.slug)
+    let featured_posts = await getFeaturedPosts(app, app.params.slug)
+    data = Object.assign({}, data, featured_posts);
   	return data
   }
 }
