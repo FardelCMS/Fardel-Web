@@ -1,10 +1,7 @@
 // var auth = require('./auth')
 
 /** Get Posts by app context */
-export async function getPosts(app) { 
-  let perPage = app.route.query.per_page || 10
-  let page = app.route.query.per_page || 1
-
+export async function getPosts(app, page, perPage) {
   let data = await app.$axios.$get("/api/blog/posts/?per_page=" + perPage + "&page=" + page)
   return {
     posts: data.posts,
@@ -16,7 +13,7 @@ export async function getPosts(app) {
 
 export async function getPostsByCategories(app, category_name) {
   let perPage = app.route.query.per_page || 10
-  let page = app.route.query.per_page || 1
+  let page = app.route.query.page || 1
 
   let data = await app.$axios.$get(
     "/api/blog/categories/"+ encodeURI(category_name) + "/posts/?per_page=" + perPage + "&page=" + page)
@@ -40,10 +37,10 @@ export async function getFeaturedPosts(app, category_name){
 }
 
 /** Get posts */
-export async function getPost(post_id) {
-  let response = await axios.get("/api/blog/posts/" + post_id + "/")
+export async function getPost(app) {
+  let data = await app.$axios.get("/api/blog/posts/" + app.params.id + "/")
   return {
-    post: response.post
+    post: data.data.post
   }
 }
 

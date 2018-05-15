@@ -1,6 +1,6 @@
 <template>
 <div>
-	<post-horizontal v-for="post in posts" v-bind:post="post"></post-horizontal>
+  <post-horizontal v-for="post in posts" v-bind:post="post"></post-horizontal>
 </div>
 </template>
 
@@ -8,9 +8,9 @@
 import PostHorizontal from "./PostHorizontal.vue"
 
 export default {
-	props: ['posts'],
+  props: ['posts'],
   components: {
-		PostHorizontal,
+    PostHorizontal,
   },
 }
 </script>
