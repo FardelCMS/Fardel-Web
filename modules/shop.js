@@ -1,7 +1,7 @@
 /** Get Shop Categories */
 export async function getCategories(app) {
   let data = await app.$axios.$get("/api/ecommerce/categories/")
-  return data
+  return data.categories
 }
 
 /** Get Shop Products */
