@@ -1,5 +1,3 @@
-// var auth = require('./auth')
-
 /** Get Posts by app context */
 export async function getPosts(app, page, perPage) {
   let data = await app.$axios.$get("/api/blog/posts/?per_page=" + perPage + "&page=" + page)

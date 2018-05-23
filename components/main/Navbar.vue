@@ -57,6 +57,7 @@
 
 <script>
 var blog = require("~/modules/blog")
+var shop = require("~/modules/shop")
 
 export default {
   data() {
@@ -77,10 +78,11 @@ export default {
       )
     },
     getShopCategories: function() {
-    //   var categories = ecommerce.getCategories(this.$root).then(data => {
-    //       this.shopCategories = data
-    //     }
-    //   )
+      var categories = shop.getCategories(this.$root).then(data => {
+          this.shopCategories = data
+          this.showShopCategories = true
+        }
+      )
     }
   }
 }
