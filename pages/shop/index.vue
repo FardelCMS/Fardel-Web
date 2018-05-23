@@ -28,6 +28,8 @@
           </div>
           <div class="columns is-multiline is-mobile">
             <product v-for="product in products" v-bind:product="product"></product>
+            <product v-for="product in products" v-bind:product="product"></product>
+            <product v-for="product in products" v-bind:product="product"></product>
           </div>
         </div>
         <div class="column">
