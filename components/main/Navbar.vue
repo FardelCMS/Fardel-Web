@@ -42,7 +42,7 @@
           </a>
           <div class="navbar-dropdown is-boxed">
             <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
-            <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/category/'+ category.name + '/'" >
+            <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/shop/categories/'+ category.name + '/'" >
               {{category.name}}
             </a>
           </div>

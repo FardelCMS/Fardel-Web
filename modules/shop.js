@@ -22,3 +22,15 @@ export async function getProductsByCategory(app, category_name) {
     "/api/ecommerce/categories/"+ encodeURI(category_name) + "/products/?per_page=" + perPage + "&page=" + page)
   return data
 }
+
+/** Get Shop Filter panel content */
+export async function getFilterPanel(app) {
+  let data = await app.$axios.$get("/api/ecommerce/filter_panel/")
+}
+
+/** Get Shop Filter panel content */
+export async function getFilterPanelByCategory(app, category_name) {
+  let data = await app.$axios.$get(
+    "/api/ecommerce/filter_panel/"+ encodeURI(category_name))
+  return data
+}

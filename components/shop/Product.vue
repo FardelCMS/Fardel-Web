@@ -3,7 +3,7 @@
   <div class="card product-box">
     <div class="card-image">
       <figure class="image is-4by3">
-        <img v-bind:src="product.image ? product.image : '/images/no-image-available.png'" alt="Placeholder image">
+        <img v-bind:src="product.image ? product.image : '/images/no-image-available.png'">
       </figure>
     </div>
     <div class="card-content">

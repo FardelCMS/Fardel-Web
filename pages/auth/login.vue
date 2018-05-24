@@ -40,6 +40,22 @@
 export default {
   head: {
     title: "ورود"
+  },
+  methods: {
+    doLogin() {
+      let url = '/api/auth/login/'
+      axios.post(url, this.user).then(response => {
+        let token = {
+          access_token : response.data.access_token,
+          refresh_token: response.data.refresh_token
+        }
+        setTimeout(() => {
+          this.$store.dispatch('login',token)
+          },1
+        )
+        this.$router.push('/en/')
+      }).catch(e => {alert(e)})
+    }
   }
 }
 </script>
