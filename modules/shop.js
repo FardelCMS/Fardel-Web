@@ -13,6 +13,12 @@ export async function getProducts(app) {
   return data
 }
 
+/** Get Shop Product by ID */
+export async function getProduct(app, id){
+  let data = await app.$axios.$get("/api/ecommerce/products/" + id + "/")
+  return data
+}
+
 /** Get Shop Products by categories */
 export async function getProductsByCategory(app, category_name) {
   let perPage = app.route.query.per_page || 20

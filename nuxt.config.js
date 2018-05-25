@@ -13,6 +13,7 @@ module.exports = {
   css: [
     'bulma',
     '@/assets/css/custom.scss',
+    { src: 'bulma-extensions/bulma-carousel/dist/bulma-carousel.min.css', lang: 'css' }
   ],
   axios: {
     baseURL: "http://localhost:5000",
