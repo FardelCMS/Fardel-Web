@@ -1,30 +1,9 @@
 <template>
 <div class="container">
-  <div class="columns">
-    <div class="column is-three-fifths">
-      <div class="hero">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-              {{name}}
-            </h1>
-            <div class="subtitle content">
-              <p>قیمت‌ : <span class="price">{{price}}</span> تومان</p>
-              <p v-for="attr in attributes">{{attr.name}} : {{attr.value}}</p>
-              <div v-for="attr in variant_attributes">
-                <h2 class="title is-4">{{attr.name}}</h2>
-                <div class="buttons">
-                  <button class="button" v-for="value in attr.choices">{{value}}</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="hero">
-        <div class="hero-body">
+  <div class="section">
+    <div class="content">
+      <div class="columns">
+        <div class="column">
           <div class='carousel carousel-animated carousel-animate-fade'>
             <div class='carousel-container'>
               <div class='carousel-item has-background is-active'>
@@ -54,15 +33,36 @@
             </div>
           </div>
         </div>
+        <div class="column is-half">
+          <div class="hero">
+            <div class="hero-body">
+              <div class="container">
+                <h1 class="title">
+                  {{name}}
+                </h1>
+                <div class="subtitle content">
+                  <p>قیمت‌ : <span class="price">{{price}}</span> تومان</p>
+                  <p v-for="attr in attributes">{{attr.name}} : {{attr.value}}</p>
+                  <div v-for="attr in variant_attributes">
+                    <h2 class="title is-4">{{attr.name}}</h2>
+                    <div class="buttons">
+                      <button class="button" v-for="value in attr.choices">{{value}}</button>
+                    </div>
+                  </div>
+                  <br>
+                  <button class="button is-info">به سبد خرید اضافه کن</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="section">
     <div class="content">
-        <h1 class="title">
-          توضیحات
-        </h1>
-        <p v-html="description" class="subtitle"></p>
+      <h1 class="title">توضیحات</h1>
+      <p v-html="description" class="subtitle"></p>
     </div>
   </div>
 </div>
