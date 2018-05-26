@@ -2,7 +2,7 @@
 <div class="container">
   <div class="section">
     <div class="content">
-      <div class="columns">
+      <div class="columns tile box">
         <div class="column">
           <div class='carousel carousel-animated carousel-animate-fade'>
             <div class='carousel-container'>
@@ -61,8 +61,12 @@
   </div>
   <div class="section">
     <div class="content">
-      <h1 class="title">توضیحات</h1>
-      <p v-html="description" class="subtitle"></p>
+      <div class="columns box">
+        <div class="tile is-child">
+          <p class="title">توضیحات</p>
+          <p v-html="description"></p>
+        </div>
+      </div>
     </div>
   </div>
 </div>
