@@ -46,7 +46,7 @@
                   <div v-for="attr in variant_attributes">
                     <h2 class="title is-4">{{attr.name}}</h2>
                     <div class="buttons">
-                      <button class="button" v-for="value in attr.choices">{{value}}</button>
+                      <button v-bind:class="{'is-primary': choosed[attr.name] == value}" v-on:click="selectVariant" v-bind:data-variant="attr.name" class="button " v-for="value in attr.choices">{{value}}</button>
                     </div>
                   </div>
                   <br>
@@ -77,18 +77,26 @@ import bulmaCarousel from '~/node_modules/bulma-extensions/bulma-carousel/dist/b
 import {getProduct} from "~/modules/shop"
 
 export default {
-  // components: {
-  //   bulmaCarousel,
-  // },
   head() {
     return {title: this.name + " - فروشگاه"}
   },
   mounted() {
     var carousels = bulmaCarousel.attach();
   },
+  methods: {
+    selectVariant(event) {
+      console.log(event.target)
+      this.choosed[event.target.dataset.variant] = event.target.innerText
+    }
+  },
   async asyncData(app) {
     let id = app.params.slug.split('-', 1)[0]
     let data = await getProduct(app, id)
+
+    data.choosed = {}
+    for (var i = data.variant_attributes.length - 1; i >= 0; i--) {
+      data.choosed[data.variant_attributes[i].name] = null
+    }
     return data
   }
 }
