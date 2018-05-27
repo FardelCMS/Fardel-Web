@@ -6,21 +6,8 @@
         <div class="column">
           <div class='carousel carousel-animated carousel-animate-fade'>
             <div class='carousel-container'>
-              <div class='carousel-item has-background is-active'>
-                <img class="is-background" src="https://wikiki.github.io/images/merry-christmas.jpg" alt="" width="640" height="310" />
-                <div class="title">Merry Christmas</div>
-              </div>
-              <div class='carousel-item has-background'>
-                <img class="is-background" src="https://wikiki.github.io/images/singer.jpg" alt="" width="640" height="310" />
-                <div class="title">Original Gift: Offer a song with <a href="https://lasongbox.com" target="_blank">La Song Box</a></div>
-              </div>
-              <div class='carousel-item has-background'>
-                <img class="is-background" src="https://wikiki.github.io/images/sushi.jpg" alt="" width="640" height="310" />
-                <div class="title">Sushi time</div>
-              </div>
-              <div class='carousel-item has-background'>
-                <img class="is-background" src="https://wikiki.github.io/images/life.jpg" alt="" width="640" height="310" />
-                <div class="title">Life</div>
+              <div v-for="image in images" class='carousel-item has-background'>
+                <img class="is-background" v-bind:src="image" alt="" width="640" height="310" />
               </div>
             </div>
             <div class="carousel-navigation">
