@@ -1,63 +1,74 @@
 <template>
-<nav class="navbar is-transparent is-fixed-top">
-  <div class="container">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="/">
-        <img src="" alt="خورجین" width="112" height="28">
-      </a>
-      <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" aria-expanded="false" v-on:click="showNav = !showNav">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-
-    <div id="nav-togger" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
-      <div class="navbar-start">
+<div>
+  <nav class="navbar is-transparent is-fixed-top">
+    <div class="container">
+      <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          خانه
+          <img src="/images/logo.png" width="50">
         </a>
-        <a class="navbar-item" href="/auth/login/">
-          ورود
-        </a>
-        <a class="navbar-item" href="/panel/login/">
-          پنل مدیریت
-        </a>
-        <div class="navbar-item has-dropdown is-hoverable"
-            v-on:mouseover.once="getBlogCategories()">
-          <a class="navbar-link" href="/blog/">
-            مجله
-          </a>
-          <div class="navbar-dropdown is-boxed">
-            <a v-if="!showBlogCategories" class="button is-loading unset-border">Loading</a>
-            <a v-for="category in blogCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
-              {{category.name}}
-            </a>
-          </div>
-        </div>
-        <div class="navbar-item has-dropdown is-hoverable"
-            v-on:mouseover.once="getShopCategories()">
-          <a class="navbar-link" href="/shop/">
-            فروشگاه
-          </a>
-          <div class="navbar-dropdown is-boxed">
-            <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
-            <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/shop/categories/'+ category.name + '/'" >
-              {{category.name}}
-            </a>
-          </div>
+        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" aria-expanded="false" v-on:click="showNav = !showNav">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
-      <div class="navbar-end">
+
+      <div id="nav-togger" class="navbar-menu" v-bind:class="{ 'is-active' : showNav }">
+        <div class="navbar-start">
+          <a class="navbar-item" href="/">
+            Home
+          </a>
+          <a class="navbar-item" v-if="!$auth.loggedIn" href="/auth/login/">
+            Login
+          </a>
+          <a class="navbar-item" v-if="$auth.loggedIn" v-on:click="doLogout">
+            Logout
+          </a>
+          <div class="navbar-item has-dropdown is-hoverable"
+              v-on:mouseover.once="getBlogCategories()">
+            <a class="navbar-link" href="/blog/">
+              Magazine
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a v-if="!showBlogCategories" class="button is-loading unset-border">Loading</a>
+              <a v-for="category in blogCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
+                {{category.name}}
+              </a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable"
+              v-on:mouseover.once="getShopCategories()">
+            <a class="navbar-link" href="/shop/">
+              Shop
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
+              <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
+                {{category.name}}
+              </a>
+            </div>
+          </div>
+          <a class="navbar-item" href="/about-us/">
+            About Us
+          </a>
+          <a class="navbar-item" href="/contact-us/">
+            Contact Us
+          </a>
+        </div>
+        <div class="navbar-end">
+          <shopping-cart></shopping-cart>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>
 </template>
 
 <script>
+import ShoppingCart from "~/components/shop/ShoppingCart"
 var blog = require("~/modules/blog")
 var shop = require("~/modules/shop")
+var auth = require("~/modules/auth")
 
 export default {
   data() {
@@ -68,6 +79,14 @@ export default {
       showBlogCategories: false,
       showShopCategories: false,
     }
+  },
+  components: {
+    ShoppingCart
+  },
+  mounted() {
+    var myStorage = window.localStorage
+    this.isAuthenticated = myStorage.getItem("authenticated")
+    console.log(this.isAuthenticated)
   },
   methods: {
     getBlogCategories: function() {
@@ -83,6 +102,15 @@ export default {
           this.showShopCategories = true
         }
       )
+    },
+    doLogout: function(event) {
+      this.$root.$cookiz.remove("cart_token")
+      this.$store.commit("cart/setToken", null)
+      this.$auth.logout().then(promis => {
+        if (this.$route.name == "index") {
+          window.location.reload(false)
+        }
+      })
     }
   }
 }

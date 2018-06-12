@@ -4,36 +4,33 @@
     <div class="hero-body">
       <div class="container">
         <h1 class="title">
-          فروشگاه
+          Shop
         </h1>
-        <h2 class="subtitle">
-          دسته بندی : {{categoryName ? categoryName : 'همه'}}
-        </h2>
       </div>
     </div>
   </section>
   <section class="section">
     <div class="container">
       <div class="columns">
-        <div class="column is-four-fifths">
-          <h5 class="title is-5">مرتب سازی بر اساس</h5>
+        <div class="column">
+          <h5 class="title is-5">Order by</h5>
           <div class="field">
             <div class="select">
               <select>
-                <option>جدید ترین</option>
-                <option>ارزان ترین</option>
-                <option>گران ترین</option>
+                <option>Newest</option>
+                <option>Cheapest</option>
+                <option>Most Expensive</option>
               </select>
             </div>
           </div>
-          <div class="columns is-multiline is-mobile">
-            <product v-for="product in products" v-bind:product="product"></product>
+          <div class="columns is-multiline">
+            <product v-for="product in products" :key="product.id" v-bind:product="product"></product>
           </div>
         </div>
-        <div class="column">
+<!--         <div class="column">
           <p class="title is-5">فیلتر ها</p><hr>
 
-        </div>
+        </div> -->
       </div>
     </div>
   </section>

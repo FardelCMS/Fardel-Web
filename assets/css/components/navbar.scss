@@ -26,3 +26,25 @@
 .unset-border {
 	border-color: unset;
 }
+
+.navbar, .navbar-dropdown, #nav-togger {
+	background-color: $navbar-back-color;
+}
+.navbar a {
+	color: white;
+}
+.navbar-link::after {
+	border-color: $navbar-link-after;
+}
+.navbar-dropdown > a:hover {
+	color: $navbar-sublink-after;
+}
+.navbar-item a:hover {
+	color: $navbar-sublink-after;
+}
+.navbar a:hover {
+	color: $navbar-sublink-after;	
+}
+.navbar-item img {
+	max-height: unset;
+}

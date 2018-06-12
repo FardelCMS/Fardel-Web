@@ -11,7 +11,7 @@ export default {
     ProductList
   },
   head() {
-    return {title: "فروشگاه"}
+    return {title: "shop"}
   },
   async asyncData(app) {
     var data = await getProducts(app)

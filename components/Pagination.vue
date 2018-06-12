@@ -1,7 +1,7 @@
 <template>
 <nav class="pagination" role="navigation" aria-label="pagination">
-  <a v-bind:href="prevEnabled ? $route.path + '?page=' + (currentPage - 1) : false" class="pagination-previous" :disabled="!prevEnabled">صفحه قبل</a>
-  <a v-bind:href="$route.path + '?page=' + (currentPage + 1)" class="pagination-next" :disabled="!nextEnabled">صفحه بعد</a>
+  <a v-bind:href="prevEnabled ? $route.path + '?page=' + (currentPage - 1) : false" class="pagination-previous" :disabled="!prevEnabled">Prev Page</a>
+  <a v-bind:href="$route.path + '?page=' + (currentPage + 1)" class="pagination-next" :disabled="!nextEnabled">Next page</a>
   <ul class="pagination-list">
     <li>
       <a v-bind:href="$route.path + '?page=' + 1" class="pagination-link" aria-label="Goto page 1" v-bind:aria-label="'Page ' + 1" :aria-current="currentPage === 1 ? 'page' : false" v-bind:class="{'is-current':currentPage === 1}">1</a>

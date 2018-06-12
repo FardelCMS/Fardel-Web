@@ -1,6 +1,6 @@
 <template>
 <div>
-  <post-horizontal v-for="post in posts" v-bind:post="post"></post-horizontal>
+  <post-horizontal v-for="post in posts" :key="post.id" v-bind:post="post"></post-horizontal>
 </div>
 </template>
 

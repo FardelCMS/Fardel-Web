@@ -1,12 +1,11 @@
+$navbar-back-color: #166d86;
+$navbar-link-after: #70dbd7;
+$navbar-sublink-after: #b0b0b0;
+$footer-back-color: #166d86;
+
+@import 'components/bulma-custom';
 @import 'components/navbar';
+@import 'components/footer';
 @import 'components/blog';
+@import 'components/shop';
 @import 'components/button';
-
-@font-face {
-	font-family: Byekan;
-	src: url("/fonts/BYekan.ttf") format("truetype"),
-}
-
-* {
-	font-family:Byekan;
-}

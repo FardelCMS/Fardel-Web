@@ -3,31 +3,35 @@
   <div class="hero-body">
     <div class="container">
       <div class="title columns is-centered">
-        ورود
+        Login
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-one-third is-narrow">
+          <b-notification v-if="errorMessage" v-html="errorMessage" type="is-danger">
+          </b-notification>
+        </div>
       </div>
       <h2 class="subtitle">
         <div class="columns is-centered">
           <div class="column is-one-third is-narrow">
-            <form v-on:submit="doLogin" method="POST">
-              <div class="field">
-                <label class="label">ایمیل</label>
-                <div class="control">
-                  <input class="input" type="email" name="email">
-                </div>
+            <div class="field">
+              <label class="label">Email</label>
+              <div class="control">
+                <input ref="email" class="input" type="email" name="email">
               </div>
-              <div class="field">
-                <label class="label">رمز عبور</label>
-                <div class="control">
-                  <input class="input" type="password" name="password">
-                </div>
+            </div>
+            <div class="field">
+              <label class="label">Password</label>
+              <div class="control">
+                <input ref="password" class="input" type="password" name="password">
               </div>
-              <div class="field">
-                <div class="control">
-                  <button class="button is-primary">ورود</button>
-                </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button v-on:click="login" class="button is-primary">Login</button>
               </div>
-            </form>
-            <p>حساب کاربری ندارید ؟ <a href="/auth/register/">اینجا را کلیک کنید</a></p>
+            </div>
+            <p>You don't have an account ? <a href="/auth/register/">Click Here!</a></p>
           </div>
         </div>
       </h2>
@@ -41,20 +45,24 @@ export default {
   head: {
     title: "ورود"
   },
+  data() {
+    return {errorMessage:null}
+  },
   methods: {
-    doLogin() {
-      let url = '/api/auth/login/'
-      axios.post(url, this.user).then(response => {
-        let token = {
-          access_token : response.data.access_token,
-          refresh_token: response.data.refresh_token
-        }
-        setTimeout(() => {
-          this.$store.dispatch('login',token)
-          },1
-        )
-        this.$router.push('/en/')
-      }).catch(e => {alert(e)})
+    login() {
+      let email = this.$refs.email.value
+      let password = this.$refs.password.value
+
+      return this.$auth
+        .loginWith('local', {
+          data: {
+            email: email,
+            password: password
+          }
+        })
+        .catch(e => {
+          this.$store.commit("notif/addNotif", {"type":"warning", "content":e.response.data.message})
+        })
     }
   }
 }

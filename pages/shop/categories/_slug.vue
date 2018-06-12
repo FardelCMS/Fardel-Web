@@ -11,7 +11,7 @@ export default {
     ProductList
   },
   head() {
-    return {title: "فروشگاه - دسته بندی " + this.$route.params.slug}
+    return {title: "shop - category " + this.$route.params.slug}
   },
   async asyncData(app) {
     var data = await getProductsByCategory(app, app.params.slug)

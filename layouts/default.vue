@@ -1,15 +1,15 @@
 <template>
-	<div>
-		<main-navbar/>
-		<main-cart/>
-		<nuxt/>
-		<main-footer/>
-	</div>
+  <div>
+    <main-navbar/>
+    <notification-box/>
+    <nuxt/>
+    <main-footer/>
+  </div>
 </template>
 <script>
 import MainFooter from '~/components/main/Footer.vue'
 import MainNavbar from '~/components/main/Navbar.vue'
-import MainCart from '~/components/main/Cart.vue'
+import NotificationBox from '~/components/main/NotificationBox.vue'
 
 export default {
   head: {
@@ -23,7 +23,7 @@ export default {
   components: {
     MainFooter,
     MainNavbar,
-    MainCart
+    NotificationBox,
   }
 }
 </script>
