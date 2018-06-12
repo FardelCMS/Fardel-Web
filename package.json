@@ -4,11 +4,14 @@
     "dev": "nuxt"
   },
   "dependencies": {
+    "@nuxtjs/auth": "^4.5.1",
     "@nuxtjs/axios": "^5.3.1",
     "axios": "^0.18.0",
     "bulma": "^0.7.1",
     "bulma-extensions": "^1.0.31",
-    "nuxt": "^1.4.0"
+    "cookie-universal-nuxt": "^2.0.3",
+    "nuxt": "^1.4.0",
+    "nuxt-buefy": "0.0.4"
   },
   "devDependencies": {
     "node-sass": "^4.9.0",
