@@ -31,7 +31,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <a v-if="!showBlogCategories" class="button is-loading unset-border">Loading</a>
-              <a v-for="category in blogCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
+              <a v-for="category in blogCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'" v-bind:key="category.id">
                 {{category.name}}
               </a>
             </div>
@@ -43,7 +43,7 @@
             </a>
             <div class="navbar-dropdown is-boxed">
               <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
-              <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'">
+              <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'" v-bind:key="category.id">
                 {{category.name}}
               </a>
             </div>
@@ -86,7 +86,7 @@ export default {
   mounted() {
     var myStorage = window.localStorage
     this.isAuthenticated = myStorage.getItem("authenticated")
-    console.log(this.isAuthenticated)
+    this.getBlogCategories()
   },
   methods: {
     getBlogCategories: function() {
