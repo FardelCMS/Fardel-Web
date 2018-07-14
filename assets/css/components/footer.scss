@@ -1,9 +1,9 @@
 .footer {
-	background-color: $footer-back-color;
+	background-color: #166d86;
 	padding: 3rem 0rem 6rem;
 	.creator-sign {
 		position: relative;
-		bottom: -96px;
+		bottom: -128px;
 		width:100%;
 		background-color:#0003;
 		padding-top:10px;
@@ -13,4 +13,19 @@
 }
 .footer a {
 	color:white;
+}
+
+html, body, #__nuxt, #__layout, #__layout > div {
+  height: 100%;
+  margin: 0;
+}
+.content {
+  min-height: 100%;
+}
+.content-inside {
+  padding-bottom: 263px;
+}
+.footer {
+  height: 263px;
+  margin-top: -287px;
 }

@@ -33,7 +33,7 @@
 	width: 100%;
 	.cart-row {
 		img {
-			max-height:200px;		
+			max-height:200px;
 		}
 	}	
 }
@@ -43,4 +43,9 @@
 	.info {
 		padding-top:20px;
 	} 
+}
+
+.payment-method-box > a, .payment-method-box > img {
+	margin-left: 30px;
+	display: inline-block;
 }
