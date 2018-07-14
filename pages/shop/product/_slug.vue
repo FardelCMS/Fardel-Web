@@ -4,9 +4,9 @@
     <div class="content">
       <div class="columns tile box">
         <div class="column">
-          <div v-if="product.images.length > 1" class='carousel carousel-animated carousel-animate-fade'>
+          <div v-if="product.images.length > 1" class='carousel carousel-animated carousel-animate-slide'>
             <div class='carousel-container'>
-              <div v-for="image in product.images" class='carousel-item has-background'>
+              <div v-for="image in product.images" class='carousel-item has-background' v-bind:key="image.id">
                 <img v-bind:src="image"/>
               </div>
             </div>
@@ -33,11 +33,11 @@
                 </h1>
                 <div class="content">
                   <p>Price : <span class="price">{{product.price}}</span> $</p>
-                  <p v-for="attr in product.attributes">{{attr.name}} : {{attr.value}}</p>
-                  <div v-for="attr in product.variant_attributes">
-                    <h2 class="title is-4">{{attr.name}}</h2>
+                  <p v-for="attr in product.attributes" v-bind:key="attr.id">{{attr.name}} : {{attr.value}}</p>
+                  <div v-for="(choices, attr_name) in product.variant_attributes" v-bind:key="attr_name">
+                    <h2 class="title is-4">{{attr_name}}</h2>
                     <div class="buttons">
-                      <button v-bind:class="{'is-primary': choosed[attr.name] == value}" v-on:click="selectVariant" v-bind:data-variant="attr.name" class="button " v-for="value in attr.choices">{{value}}</button>
+                      <button v-bind:class="{'is-primary': choosed[attr_name] == value}" v-on:click="selectVariant" v-bind:data-variant="attr_name" class="button " v-for="value in choices" v-bind:key="value">{{value}}</button>
                     </div>
                   </div>
                   <br>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import bulmaCarousel from '~/node_modules/bulma-extensions/bulma-carousel/dist/bulma-carousel.min.js';
+import bulmaCarousel from '~/node_modules/bulma-extensions/bulma-carousel/dist/js/bulma-carousel.min.js';
 import {getProduct, addToCartApi, addToCartWithFileApi} from "~/modules/shop"
 
 export default {
@@ -111,26 +111,53 @@ export default {
   },
   methods: {
     selectVariant(event) {
+      var allSelected = true
       this.choosed[event.target.dataset.variant] = event.target.innerText
+      for (var key in this.choosed) {
+        if (key == null) {
+          allSelected = false
+        }
+      }
+
+      if (allSelected) {
+        for (var i=0; i < this.product.variants.length ; i++) {
+          console.log(this.product.variants[i])
+          var selected = true
+          for (var name in this.product.variants[i].attributes) {
+            if (this.choosed[name] != this.product.variants[i].attributes[name]) {
+              selected = false
+            }
+          }
+
+          if (selected === true) {
+            this.selected_variant = this.product.variants[i]
+          }
+          console.log(this.selected_variant)
+        }
+      }
     },
     addToCart(event) {
       this.isLoading = true
-      if (this.orderCount < 1) {        
-        this.$store.commit("notif/addNotif", {'type':"danger", "content":"Please enter the count."})
+      if (this.orderCount < 1) {
+        this.errorNotification({"message":"Please enter product count."})
         this.isLoading = false
       } else if (this.selected_variant != null) {
         if (this.product.product_type.is_file_required) {
-          this.addToCartWithFile(event).catch(error => {
-            this.isLoading = false
-          })
+          this.addToCartWithFile(event)
         } else {
-          addToCartApi(this.$root, this.$refs.productID.value, this.orderCount).then(response => {
-            this.$store.commit("notif/addNotif", {'type':"success", "content":"Product added to the cart."})
+          var variant_id = this.selected_variant.id
+          var count = this.orderCount
+          addToCartApi(this.$root, variant_id, count).then(response => {
+            this.successNotification({"message":"Product has been added to shopping cart."})
             this.$store.dispatch("cart/reloadCart", this.$root)
+            this.isLoading = false
           }).catch(error => {
             this.isLoading = false
           })
         }
+      } else {
+        this.errorNotification({"message":"Please choose product variant."})
+        this.isLoading = false
       }
     },
     addToCartWithFile(event) {
@@ -140,18 +167,16 @@ export default {
         var count = this.orderCount
 
         addToCartWithFileApi(this.$root, variant_id, count, file).then(resp => {
-          this.$store.commit("notif/addNotif",
-            {'type':"success", "content":"Product added to the cart."})
+          this.successNotification({"message":"Product has been added to shopping cart."})
           this.$store.dispatch("cart/reloadCart", this.$root)
           this.isLoading = false
         }).catch(error => {
+          this.errorNotification({"message": error})
           console.log(error)
-          this.$store.commit("notif/addNotif",
-            {"type":"danger", "content": error.response.data.message})
           this.isLoading = false
         })
       } else {
-        this.$store.commit("notif/addNotif", {"type":"danger", "content":"Please enter the file for the product."})
+        this.errorNotification({"message":"Please enter a file for your order."})
           this.isLoading = false
       }
     }
@@ -160,16 +185,25 @@ export default {
     let id = app.params.slug.split('-', 1)[0]
     let data = await getProduct(app, id)
     var choosed = {}
-
     if (data.product.product_type.has_variants) {
-      for (var i = data.product.variant_attributes.length - 1; i >= 0; i--) {
-        choosed[data.product.variant_attributes[i].name] = null
+      for (var key in data.product.variant_attributes) {
+        choosed[key] = null
       }
       data.choosed = choosed
     } else {
       data.selected_variant = data.product.variants[0]
     }
     return data
+  },
+  notifications: {    
+    successNotification: {
+      type: "success",
+      title: "Success !",
+    },
+    errorNotification: {
+      type: "error",
+      title: "Error !",
+    }
   }
 }
 </script>
