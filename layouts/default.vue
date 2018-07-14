@@ -3,7 +3,6 @@
     <div class="content">
       <div class="content-inside">
     		<main-navbar/>
-        <notification-box/>
     		<nuxt/>
       </div>
     </div>
@@ -13,7 +12,6 @@
 <script>
 import MainFooter from '~/components/main/Footer.vue'
 import MainNavbar from '~/components/main/Navbar.vue'
-import NotificationBox from '~/components/main/NotificationBox.vue'
 
 export default {
   head: {
@@ -27,7 +25,6 @@ export default {
   components: {
     MainFooter,
     MainNavbar,
-    NotificationBox,
   }
 }
 </script>
