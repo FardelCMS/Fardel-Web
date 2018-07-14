@@ -13,6 +13,16 @@ export async function getProducts(app) {
   return data
 }
 
+/** Get Shop Products */
+export async function getProductsOrdered(app, order) {
+  let perPage = app.$route.query.per_page || 20
+  let page = app.$route.query.page || 1
+  let url = "/api/ecommerce/products/?per_page=" + perPage + "&page=" + page + "&order_by=" + order
+
+  let data = await app.$axios.$get(url)
+  return data
+}
+
 /** Get Shop Product by ID */
 export async function getProduct(app, id){
   let data = await app.$axios.$get("/api/ecommerce/products/" + id + "/")
@@ -30,9 +40,9 @@ export async function getProductsByCategory(app, category_name) {
 }
 
 /** Get Shop Filter panel content */
-export async function getFilterPanel(app) {
-  let data = await app.$axios.$get("/api/ecommerce/filter_panel/")
-}
+// export async function getFilterPanel(app) {
+//   let data = await app.$axios.$get("/api/ecommerce/filter_panel/")
+// }
 
 /** Get Shop Filter panel content */
 export async function getFilterPanelByCategory(app, category_name) {
@@ -71,8 +81,19 @@ export async function getShoppingCart(app) {
   return data    
 }
 
-export async function addToCartApi(app, product_id, count) {
-  let data = await app.$axios.$put()
+export async function addToCartApi(app, variant_id, count) {
+  var {store, cookiz} = getStoreAndCookiz(app)
+  var url = addTokenToUrl(store, "/api/ecommerce/checkout/cart/")
+
+  var _data = new FormData()
+  _data.append('variant_id', variant_id)
+  _data.append('count', count)
+
+
+  let data = await app.$axios.$put(url, _data,
+    {"headers": {'Content-Type': 'multipart/form-data'}
+  })
+
   app.$store.commit("cart/setToken", data.cart.token)
   app.$cookiz.set("cart_token", data.cart.token)
   return data
@@ -96,7 +117,7 @@ export async function addToCartWithFileApi(app, variant_id, count, file) {
   return data
 }
 
-export async function setProductQuantityCart(app, count, _data) {
+export async function setProductQuantityCart(app, _data) {
   var {store, cookiz} = getStoreAndCookiz(app)
   var url = addTokenToUrl(store, "/api/ecommerce/checkout/cart/")
 
@@ -108,7 +129,7 @@ export async function setProductQuantityCart(app, count, _data) {
 }
 
 export async function deleteFromCart(app, _data) {
-  return await setProductQuantityCart(app, 0, _data)
+  return await setProductQuantityCart(app, _data)
 }
 
 export async function clearShoppingCartApi(app) {
@@ -116,5 +137,14 @@ export async function clearShoppingCartApi(app) {
   var url = addTokenToUrl(store, "/api/ecommerce/checkout/cart/")
   let data = await app.$axios.$delete(url)
   app.$cookiz.remove("cart_token")
+  return data
+}
+
+export async function submitOrderApi(context, addressId, cartToken) {
+  let url = "/api/ecommerce/checkout/payment/"
+  let redirectUrl = "/shop/verification"
+  let data = await context.$axios.$post(url, {
+    "cart_token":cartToken, "address_id":addressId, "redirect_url":redirectUrl
+  })
   return data
 }
