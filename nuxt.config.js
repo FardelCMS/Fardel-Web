@@ -1,5 +1,11 @@
 module.exports = {
-  router : {middleware: ['cart']},
+  router : {middleware: ['cart']},  
+  build: {
+    vendor: ['vue-notifications']
+  },
+  plugins: [
+    { src: '~/plugins/vue-notifications', ssr: false },
+  ],
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/proxy',
@@ -17,8 +23,12 @@ module.exports = {
   css: [
     'bulma',
     '@/assets/css/custom.scss',
-    { src: 'bulma-extensions/bulma-carousel/dist/bulma-carousel.min.css', lang: 'css' }
+    { src: 'node_modules/bulma-extensions/bulma-carousel/dist/css/bulma-carousel.min.css', lang: 'css' }
   ],
+  loading: {
+    color: "#d686ff",
+    height: '4px'
+  },
   axios: {
     baseURL: "http://localhost:5000",
     browserBaseURL: "http://localhost",
