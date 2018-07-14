@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <main-navbar/>
-    <notification-box/>
-    <nuxt/>
-    <main-footer/>
-  </div>
+	<div>
+    <div class="content">
+      <div class="content-inside">
+    		<main-navbar/>
+        <notification-box/>
+    		<nuxt/>
+      </div>
+    </div>
+		<main-footer/>
+	</div>
 </template>
 <script>
 import MainFooter from '~/components/main/Footer.vue'
