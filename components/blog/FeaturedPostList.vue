@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="card" v-for="post in posts">
+  <div class="card" v-for="post in posts" v-bind:key="post.id">
     <a v-bind:href="'/blog/'+ post.id + '/' + post.title + '/'">
       <div class="card-image">
         <figure class="image">

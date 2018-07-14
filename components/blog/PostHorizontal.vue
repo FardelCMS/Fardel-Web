@@ -8,7 +8,7 @@
           <a v-bind:href="'/blog/'+post.id+'/'+post.title+'/'"><img style="height:300px" v-bind:src="post.image"></a>
         </div>
         <div class="tags">
-          <a class="tag is-medium is-info" v-for="tag in post.tags">{{tag.name}}</a>
+          <a class="tag is-medium is-info" v-for="tag in post.tags" v-bind:key="tag.id">{{tag.name}}</a>
         </div>
       </div>
       <div class="column post-box">
