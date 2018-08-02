@@ -4,14 +4,14 @@
   <a v-bind:href="$route.path + '?page=' + (currentPage + 1)" class="pagination-next" :disabled="!nextEnabled">Next page</a>
   <ul class="pagination-list">
     <li>
-      <a v-bind:href="$route.path + '?page=' + 1" class="pagination-link" aria-label="Goto page 1" v-bind:aria-label="'Page ' + 1" :aria-current="currentPage === 1 ? 'page' : false" v-bind:class="{'is-current':currentPage === 1}">1</a>
+      <a v-bind:href="$route.path + '?page=' + 1" class="pagination-link" aria-label="Goto page 1"  :aria-current="currentPage === 1 ? 'page' : false" v-bind:class="{'is-current':currentPage === 1}">1</a>
     </li>
 
     <li v-if="currentPage > 6">
       <span class="pagination-ellipsis">&hellip;</span>
     </li>
 
-    <li v-for="pageNumber in pageNumbers">
+    <li v-for="pageNumber in pageNumbers" v-bind:key="pageNumber">
       <a v-bind:href="$route.path + '?page=' + pageNumber" class="pagination-link" v-bind:class="{'is-current':currentPage === pageNumber}" v-bind:aria-label="'Page ' + pageNumber" :aria-current="currentPage === pageNumber ? 'page' : false">{{pageNumber}}</a>
     </li>
 
@@ -20,7 +20,7 @@
     </li>
 
     <li v-if="pages > 1">
-      <a v-bind:href="$route.path + '?page=' + pages" class="pagination-link" aria-label="Goto page 1" v-bind:aria-label="'Page ' + pages" :aria-current="currentPage === pages ? 'page' : false" v-bind:class="{'is-current':currentPage === pages}">{{pages}}</a>
+      <a v-bind:href="$route.path + '?page=' + pages" class="pagination-link" v-bind:aria-label="'Page ' + pages" :aria-current="currentPage === pages ? 'page' : false" v-bind:class="{'is-current':currentPage === pages}">{{pages}}</a>
     </li>
   </ul>
 </nav>

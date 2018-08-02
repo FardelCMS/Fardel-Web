@@ -56,8 +56,15 @@ export default {
   methods: {
     clearShoppingCart: function(element) {
       this.isClearLoading = true
-      this.$store.dispatch("cart/clearCart", this.$root).then(data => {
+      this.$store.dispatch("cart/clearCart", 
+        {"success": this.clearSuccessfulNotification,
+         "error": this.errorNotification,
+         "app": this.$root}
+      ).then(resp => {
         this.isClearLoading = false
+        this.cart.lines = []
+      }).catch(resp => {
+        this.errorNotification({"message": resp.data.message})
       })
     },
     loadShoppingCart: function(element) {

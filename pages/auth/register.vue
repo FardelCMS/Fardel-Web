@@ -78,16 +78,21 @@ export default {
       let lastName = this.$refs.lastName.value
       let firstName = this.$refs.firstName.value
       if (password1 != password2) {
-        this.errorMessage = "Passwords are not equal"
+        this.showLoginError({"message":"Passwords are not equal!", "title":"Error !"})
       } else {        
         return register(this.$root, email, password1, firstName, lastName).then(data => {
             window.location.href = '/'
           }
         ).catch(error => {
-            this.errorMessage = error.response.data.message
+            this.showLoginError({"message":error.response.data.message, "title":"Error !"})
           }
         )
       }
+    }
+  },
+  notifications: {
+    showLoginError: {
+      type: "error"
     }
   }
 }

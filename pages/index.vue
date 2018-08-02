@@ -31,7 +31,7 @@
           <article class="tile is-child notification is-link">
             <div class="content">
               <p class="title" style="font-size:30px">Sepehr Hamzehlouy</p>
-              <p class="subtitle">Python/Javascript/Elixir Developer</p>
+              <p class="subtitle">Python/Javascript/Golang Developer</p>
               <div class="content">
                 <img class="image" src="/images/sepehr.jpeg">
               </div>

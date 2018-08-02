@@ -5,12 +5,6 @@
       <div class="title columns is-centered">
         Login
       </div>
-      <div class="columns is-centered">
-        <div class="column is-one-third is-narrow">
-          <b-notification v-if="errorMessage" v-html="errorMessage" type="is-danger">
-          </b-notification>
-        </div>
-      </div>
       <h2 class="subtitle">
         <div class="columns is-centered">
           <div class="column is-one-third is-narrow">
@@ -45,9 +39,6 @@ export default {
   head: {
     title: "ورود"
   },
-  data() {
-    return {errorMessage:null}
-  },
   methods: {
     login() {
       let email = this.$refs.email.value
@@ -61,8 +52,18 @@ export default {
           }
         })
         .catch(e => {
-          this.$store.commit("notif/addNotif", {"type":"warning", "content":e.response.data.message})
+          this.showLoginError({
+              timeout: 5000,
+              message: e.response.data.message,
+              title: "Error !",
+              type:"error"
+          })
         })
+    }
+  },
+  notifications: {
+    showLoginError: {
+      type: "error"
     }
   }
 }

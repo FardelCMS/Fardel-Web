@@ -4,7 +4,7 @@
     <div class="container">
       <div class="navbar-brand">
         <a class="navbar-item" href="/">
-          <img src="/images/logo.png" width="50">
+          <img src="/images/logo.png" alt="Fardel" width="50">
         </a>
         <div class="navbar-burger burger" data-target="navbarExampleTransparentExample" aria-expanded="false" v-on:click="showNav = !showNav">
           <span></span>
@@ -19,11 +19,18 @@
             Home
           </a>
           <a class="navbar-item" v-if="!$auth.loggedIn" href="/auth/login/">
-            Login
+            Login/Register
           </a>
-          <a class="navbar-item" v-if="$auth.loggedIn" v-on:click="doLogout">
-            Logout
-          </a>
+          <div v-if="$auth.loggedIn" class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              <span v-if="$auth.user.first_name"> {{$auth.user.first_name}} </span>
+              <span v-else> {{$auth.user.email}} </span>
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item" href='/auth/profile'>Profile</a>
+              <a class="navbar-item" v-on:click="doLogout">Logout</a>
+            </div>
+          </div>
           <div class="navbar-item has-dropdown is-hoverable"
               v-on:mouseover.once="getBlogCategories()">
             <a class="navbar-link" href="/blog/">
@@ -36,15 +43,14 @@
               </a>
             </div>
           </div>
-          <div class="navbar-item has-dropdown is-hoverable"
-              v-on:mouseover.once="getShopCategories()">
-            <a class="navbar-link" href="/shop/">
-              Shop
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a  href="/shop/" class="navbar-link">
+              <span>Shop</span>
             </a>
             <div class="navbar-dropdown is-boxed">
-              <a v-if="!showShopCategories" class="button is-loading unset-border">Loading</a>
-              <a v-for="category in shopCategories" class="navbar-item" v-bind:href="'/blog/categories/'+ category.name + '/'" v-bind:key="category.id">
-                {{category.name}}
+              <a v-for="cat in shopCategories" v-bind:key="cat.id"
+              class="navbar-item" v-bind:href='"/shop/categories/" + cat.name + "/"'>
+                {{cat.name}}
               </a>
             </div>
           </div>
@@ -83,10 +89,13 @@ export default {
   components: {
     ShoppingCart
   },
+  created() {
+    this.getBlogCategories()
+    this.getShopCategories()
+  },
   mounted() {
     var myStorage = window.localStorage
     this.isAuthenticated = myStorage.getItem("authenticated")
-    this.getBlogCategories()
   },
   methods: {
     getBlogCategories: function() {

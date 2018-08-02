@@ -38,12 +38,29 @@
 </template>
 
 <script type="text/javascript">
+import {getProductsOrdered} from "~/modules/shop"
 import Product from "~/components/shop/Product.vue"
 
 export default {
   components: {
     Product,
   },
+  methods: {
+    setOrder: function(event) {
+      var category = this.$route.params.slug
+      getProductsOrdered(this, event.target.value, category).then(data => {
+        this.products = data.products
+      }).catch(error => {
+        this.errorNotification({"message":"Unfortunately something went wrong, sorry."})
+      })
+    }
+  },
   props: ['categoryName', 'products', 'filters'],
+  notifications: {
+    errorNotification: {
+      type: "error",
+      title: "error !",
+    }
+  }
 }
 </script>

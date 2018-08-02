@@ -14,10 +14,14 @@ export async function getProducts(app) {
 }
 
 /** Get Shop Products */
-export async function getProductsOrdered(app, order) {
+export async function getProductsOrdered(app, order, category) {
   let perPage = app.$route.query.per_page || 20
   let page = app.$route.query.page || 1
-  let url = "/api/ecommerce/products/?per_page=" + perPage + "&page=" + page + "&order_by=" + order
+  if (category != undefined) {
+    var url = "/api/ecommerce/categories/" + encodeURI(category) + "/products/?per_page=" + perPage + "&page=" + page + "&order_by=" + order
+  } else {
+    var url = "/api/ecommerce/products/?per_page=" + perPage + "&page=" + page + "&order_by=" + order
+  }
 
   let data = await app.$axios.$get(url)
   return data
@@ -140,11 +144,28 @@ export async function clearShoppingCartApi(app) {
   return data
 }
 
-export async function submitOrderApi(context, addressId, cartToken) {
+export async function submitOrderApi(context, addressId, cartToken, redirectURL) {
   let url = "/api/ecommerce/checkout/payment/"
-  let redirectUrl = "/shop/verification"
   let data = await context.$axios.$post(url, {
-    "cart_token":cartToken, "address_id":addressId, "redirect_url":redirectUrl
+    "cart_token":cartToken, "address_id":addressId, "redirect_url":redirectURL
   })
+  return data
+}
+
+export async function verificationPaymnetApi(context, authority, status) {
+  let url = "/api/ecommerce/checkout/payment/verification/" + authority + "/" + status + "/"
+  let data = await context.$axios.$get(url)
+  return data
+}
+
+export async function getOrdersApi(context) {
+  let url = "/api/ecommerce/order/"
+  let data = await context.$axios.$get(url)
+  return data
+}
+
+export async function getOrderApi(context, orderId) {
+  let url = "/api/ecommerce/order/" + orderId + "/"
+  let data = await context.$axios.$get(url)
   return data
 }

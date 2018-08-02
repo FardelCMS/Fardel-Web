@@ -4,12 +4,12 @@
       <div class="container">
       	<center>
         <h1 class="title">
-          خطایی رخ داده
+          Something went wrong
         </h1>
         <br>
         <h2 class="subtitle">
-	        <h1>خطای : {{error.statusCode}}</h1>
-	        <h1 v-if="error.statusCode === 404">این صفحه موجود نیست ؟</h1>
+	        <h1>error : {{error.statusCode}}</h1>
+	        <h1 v-if="error.statusCode === 404">Page Not found</h1>
         </h2>
         </center>
       </div>
@@ -22,7 +22,7 @@ export default {
   props: ['error'],
   transition: 'page',
   head() {
-    return {title: "خطا "}
+    return {title: "Error "}
   },
 }
 </script>

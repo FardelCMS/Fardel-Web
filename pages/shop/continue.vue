@@ -1,6 +1,6 @@
 <template>
 <section class="section">
-  <div class="container">
+  <div v-if="cart" class="container">
     <h1 class="title">Choose Address</h1>
     <div class="box">
       <div class="column"><a v-on:click="newAddressModal()" class="button title is-5 is-primary">New Address</a></div>
@@ -16,7 +16,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="clickable" v-for="address in addresses" v-bind:data-addrid="address.id" v-on:click="selectAddress" v-bind:class="{'addr-selected':selectedAddress==address.id}" v-bind:key="address.id">
+          <tr class="clickable" v-for="address in addresses" v-bind:data-addrid="address.id"
+          v-on:click="selectAddress" v-bind:class="{'addr-selected':selectedAddress==address.id}"
+          v-bind:key="address.id">
             <td>{{address.street_address}}</td>
             <td>{{address.postal_code}}</td>
             <td>{{address.phone}}</td>
@@ -32,7 +34,8 @@
       <div class="columns">
         <div class="column">
           <div class="payment-method-box">
-            <a v-bind:class="{'is-primary': selectedPaymentMethod=='zarinpal'}" data-method="zarinpal" v-on:click="choosePaymentMethod" class="button">Zarinpal</a>
+            <a v-bind:class="{'is-primary': selectedPaymentMethod=='zarinpal'}"
+            data-method="zarinpal" v-on:click="choosePaymentMethod" class="button">Zarinpal</a>
             <img class="image" src="/images/zarinpal.svg">
           </div>
         </div>
@@ -41,12 +44,19 @@
       <!-- <div class="columns">
         <div class="column">
           <div class="payment-method-box">
-            <a v-bind:class="{'is-primary': selectedPaymentMethod==''}" data-method="" v-on:click="choosePaymentMethod" class="button"></a>
+            <a v-bind:class="{'is-primary': selectedPaymentMethod=='hozoori'}"
+            data-method="hozoori" v-on:click="choosePaymentMethod" class="button">حضوری</a>
           </div>
         </div>
       </div> -->
     </div>
-    <a class="button is-success title is-5" v-on:click="submitOrder" v-bind:class="{'is-loading': isSubmittingOrder}">Submit</a>
+    <a class="button is-success title is-5" v-on:click="submitOrder"
+    v-bind:class="{'is-loading': isSubmittingOrder}">Submit</a>
+  </div>
+  <div v-else class="container">
+    <center>
+      <h3 class="title">Please fill your shopping cart before continue.</h3>
+    </center>
   </div>
   <div class="modal" v-bind:class="{'is-active': newAddressModalActive}">
     <div class="modal-background"></div>
@@ -145,6 +155,7 @@
 <script>
 import {getAddresses, addAddress, deleteAdddress} from "~/modules/address"
 import {getShoppingCart, submitOrderApi} from "~/modules/shop"
+import config from '~/nuxt.config'
 
 export default {
   middleware: "auth",
@@ -164,7 +175,8 @@ export default {
     let address_data = await getAddresses(context)
     let data = await getShoppingCart(context)
     return {addresses: address_data['addresses'],
-            shippingRequired: data.cart.is_shipping_required}
+            shippingRequired: data.cart ? data.cart.is_shipping_required : false,
+            cart: data.cart}
   },
   methods : {
     newAddressModal: function() {
@@ -186,11 +198,11 @@ export default {
       }
 
       addAddress(this.$root, address).then(resp => {
-        console.log(resp)
         this.$data.addresses.push(resp.address)
         this.$data.newAddressModalActive = false
         this.showAddNotification({
           message: "New address has been added.",
+          title: "Succeeded !"
         })
       })
     },
@@ -221,16 +233,17 @@ export default {
     submitOrder: function(event) {
       var addressId = this.$data.selectedAddress
       var cartToken = this.$store.state.cart.token
-      var redirectURL = "/shop/verify_order/"
-      submitOrderApi(this.$root, addressId, cartToken).then(resp => {
+      var redirectURL = config.axios.browserBaseURL + "/shop/verification/"
+      submitOrderApi(this.$root, addressId, cartToken, redirectURL).then(resp => {
         window.location.href = resp.payment_url;
+      }).catch(resp => {
+        console.log(resp)
       })
     }
   },
   notifications: {
     showAddNotification: {
-      type: "success",
-      title: "Success !"
+      type: "success"
     }
   }
 }

@@ -36,29 +36,26 @@
             <td>{{address.phone}}</td>
             <td>{{address.city}}</td>
             <td>{{address.country}}</td>
-            <td><a class="button is-danger" v-bind:data-id="address.id" v-on:click="deleteAddress">حذف</a></td>
+            <td><a class="button is-danger" v-bind:data-id="address.id" v-on:click="deleteAddress">delete</a></td>
           </tr>
         </tbody>
       </table>
     </div>
-    <h1 class="title">سفارشات</h1>
+    <h1 class="title">Orders</h1>
     <div class="box">
       <table class="table">
         <thead>
           <tr>
             <td>Total Price</td>
-            <td>Created Time</td>
             <td>Status</td>
             <td>Details</td>
           </tr>
         </thead>
         <tbody>
           <tr class="clickable" v-for="order in orders" v-bind:data-addrid="order.id" v-on:click="selectAddress" v-bind:key="order.id">
-            <td>{{address.street_address}}</td>
-            <td>{{address.postal_code}}</td>
-            <td>{{address.phone}}</td>
-            <td>{{address.city}}</td>
-            <td>{{address.country}}</td>
+            <td>{{order.total}}</td>
+            <td>{{order.status}}</td>
+            <td><a v-bind:href="'/shop/order_details/' + order.id + '/'" class="button is-primary">deta</a></td>
           </tr>
         </tbody>
       </table>      
@@ -160,6 +157,7 @@
 
 <script>
 import {getAddresses, addAddress, deleteAdddress} from "~/modules/address"
+import {getOrdersApi, getOrderApi} from "~/modules/shop"
 
 export default {
   middleware: "auth",
@@ -178,7 +176,8 @@ export default {
   },
   async asyncData(context) {
     let address_data = await getAddresses(context)
-    return {addresses: address_data['addresses']}
+    let orders = await getOrdersApi(context)
+    return {addresses: address_data['addresses'], orders: orders.orders}
   },
   methods : {
     newAddressModal: function() {
@@ -200,7 +199,6 @@ export default {
       }
 
       addAddress(this.$root, address).then(resp => {
-        console.log(resp)
         this.$data.addresses.push(resp.address)
         this.$data.newAddressModalActive = false
         this.showAddNotification({

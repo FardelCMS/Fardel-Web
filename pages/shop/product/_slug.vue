@@ -20,7 +20,7 @@
             </div>
           </div>
           <div v-if="product.images.length <= 1">
-            <img v-bind:src="product.images[0]"/>
+            <img v-bind:src="product.images[0] ? product.images[0] : '/images/no-image-available.png'"/>
           </div>
 
         </div>
@@ -34,14 +34,16 @@
                 <div class="content">
                   <p>Price : <span class="price">{{product.price}}</span> $</p>
                   <p v-for="attr in product.attributes" v-bind:key="attr.id">{{attr.name}} : {{attr.value}}</p>
-                  <div v-for="(choices, attr_name) in product.variant_attributes" v-bind:key="attr_name">
+                  <div v-for="(choices, attr_name) in buttons" v-bind:key="attr_name">
                     <h2 class="title is-4">{{attr_name}}</h2>
                     <div class="buttons">
-                      <button v-bind:class="{'is-primary': choosed[attr_name] == value}" v-on:click="selectVariant" v-bind:data-variant="attr_name" class="button " v-for="value in choices" v-bind:key="value">{{value}}</button>
+                      <button v-bind:class="{'is-primary': choosed[attr_name] == value}"
+                      v-on:click="selectVariant" v-bind:data-variant="attr_name" class="button "
+                      v-for="value in choices" v-bind:key="value">{{value}}</button>
                     </div>
                   </div>
                   <br>
-                  <b-field v-if="product.product_type.is_file_required" class="file">
+                  <b-field v-if="product.product_type.is_file_required && product.status == 'available'" class="file">
                     <b-upload v-model="files">
                       <a class="button is-primary">
                         <b-icon icon="upload"></b-icon>
@@ -55,7 +57,7 @@
                   </b-field>
                   <br>
                   <input v-bind:value="product.id" type="hidden" ref="productID">
-                  <b-field>
+                  <b-field  v-if="product.status == 'available'">
                     <b-input placeholder="تعداد"
                       type="number"
                       min="1"
@@ -68,6 +70,9 @@
                       Add To Cart
                     </button>
                   </b-field>
+                  <div v-else class="unavailable-box">
+                    <p class="unavailable-product">اتمام موجودی</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -92,6 +97,15 @@
 <script>
 import bulmaCarousel from '~/node_modules/bulma-extensions/bulma-carousel/dist/js/bulma-carousel.min.js';
 import {getProduct, addToCartApi, addToCartWithFileApi} from "~/modules/shop"
+
+function areAttributesSelected(choosed) {
+  for (var key in choosed) {
+    if (choosed[key] == null) {
+      return false
+    }
+  }
+  return true
+}
 
 export default {
   head() {
@@ -121,7 +135,6 @@ export default {
 
       if (allSelected) {
         for (var i=0; i < this.product.variants.length ; i++) {
-          console.log(this.product.variants[i])
           var selected = true
           for (var name in this.product.variants[i].attributes) {
             if (this.choosed[name] != this.product.variants[i].attributes[name]) {
@@ -131,8 +144,12 @@ export default {
 
           if (selected === true) {
             this.selected_variant = this.product.variants[i]
+            var changed = true
           }
-          console.log(this.selected_variant)
+        }
+
+        if (!changed) {
+          this.selected_variant = null
         }
       }
     },
@@ -155,6 +172,9 @@ export default {
             this.isLoading = false
           })
         }
+      } else if (this.selected_variant == null && areAttributesSelected(this.choosed)) {
+        this.errorNotification({"message":"Unfortunately this variant of product is not available."})
+        this.isLoading = false
       } else {
         this.errorNotification({"message":"Please choose product variant."})
         this.isLoading = false
@@ -185,6 +205,18 @@ export default {
     let id = app.params.slug.split('-', 1)[0]
     let data = await getProduct(app, id)
     var choosed = {}
+    var buttons = {}
+
+    for (var key in data.product.variant_attributes) {
+      buttons[key] = []
+      for (var choice in data.product.variant_attributes[key]) {
+        if (!buttons[key].includes(data.product.variant_attributes[key][choice])) {
+          buttons[key].push(data.product.variant_attributes[key][choice])
+        }
+      }
+    }
+    data.buttons = buttons
+
     if (data.product.product_type.has_variants) {
       for (var key in data.product.variant_attributes) {
         choosed[key] = null
