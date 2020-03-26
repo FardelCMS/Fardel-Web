@@ -80,7 +80,7 @@ export async function getShoppingCart(app) {
   let data = await app.$axios.$get(url)
   if (data.cart) {
     store.commit("cart/setToken", data.cart.token)
-    cookiz.set("cart_token", data.cart.token)    
+    cookiz.set("cart_token", data.cart.token)
   }
   return data    
 }
